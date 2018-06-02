@@ -13,6 +13,8 @@ class DetailViewController: UIViewController, UICollectionViewDataSource, UIColl
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var imageCollectionView: UICollectionView!
     @IBOutlet weak var pages: UIPageControl!
+    @IBOutlet weak var statusLabel: UILabel!
+    
     var hotel: Hotel = Hotel()
     
     override func viewDidLoad() {
@@ -21,7 +23,14 @@ class DetailViewController: UIViewController, UICollectionViewDataSource, UIColl
         descriptionTextView.text = hotel.description
         self.imageCollectionView.delegate = self
         self.imageCollectionView.dataSource = self
+        self.statusLabel.text = hotel.status.rawValue
         pages.numberOfPages = hotel.imageCollection.count
+        if (hotel.status == .cancel){
+            self.statusLabel.backgroundColor = UIColor.red ;
+        }
+        else{
+            self.statusLabel.backgroundColor = UIColor.green ;
+        }
         // Do any additional setup after loading the view.
     }
 
@@ -33,16 +42,24 @@ class DetailViewController: UIViewController, UICollectionViewDataSource, UIColl
     @IBAction func bookAction(_ sender: Any) {
         let bookAlert = UIAlertController(title: "Reservar", message:nil , preferredStyle: UIAlertControllerStyle.actionSheet)
         bookAlert.addAction(UIAlertAction(title: "Suit", style: .default, handler: { (action: UIAlertAction!) in
-            print("Suit")
+            self.hotel.status = .suit;
+            self.statusLabel.text = self.hotel.status.rawValue ;
+            self.statusLabel.backgroundColor = UIColor.green ;
         }))
         bookAlert.addAction(UIAlertAction(title: "Double", style: .default, handler: { (action: UIAlertAction!) in
-            print("Double")
+            self.hotel.status = .double;
+            self.statusLabel.text = self.hotel.status.rawValue ;
+            self.statusLabel.backgroundColor = UIColor.green ;
         }))
         bookAlert.addAction(UIAlertAction(title: "Sencilla", style: .default, handler: { (action: UIAlertAction!) in
-            print("Sencilla")
+            self.hotel.status = .simple;
+            self.statusLabel.text = self.hotel.status.rawValue ;
+            self.statusLabel.backgroundColor = UIColor.green ;
         }))
         bookAlert.addAction(UIAlertAction(title: "Cancelar", style: .default, handler: { (action: UIAlertAction!) in
-            print("Cancelar")
+            self.hotel.status = .cancel;
+            self.statusLabel.text = self.hotel.status.rawValue ;
+            self.statusLabel.backgroundColor = UIColor.red ;
         }))
         present(bookAlert, animated: true, completion: nil) // Ejecuta el alert
     }

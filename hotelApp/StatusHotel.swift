@@ -7,9 +7,9 @@
 //
 
 import Foundation
-enum StatusHotel {
-    case suit
-    case double
-    case simple
-    case cancel
+enum StatusHotel : String {
+    case suit = "Reservado = Suit"
+    case double = "Reservado = Double"
+    case simple = "Reservado = Simple"
+    case cancel = "No Reservado"
 }
