@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DetailViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+class DetailViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var imageCollectionView: UICollectionView!
@@ -24,7 +24,9 @@ class DetailViewController: UIViewController, UICollectionViewDataSource, UIColl
         self.imageCollectionView.delegate = self
         self.imageCollectionView.dataSource = self
         self.statusLabel.text = hotel.status.rawValue
+        
         pages.numberOfPages = hotel.imageCollection.count
+        
         if (hotel.status == .cancel){
             self.statusLabel.backgroundColor = UIColor.red ;
         }
@@ -79,11 +81,14 @@ class DetailViewController: UIViewController, UICollectionViewDataSource, UIColl
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
+        return 1
     }
     
    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-       return self.imageCollectionView.frame.size
+        //let cellsize = CGSize(width: self.imageCollectionView.frame.size.width - 1, height: imageCollectionView.frame.size.height)
+        //return self.imageCollectionView.frame.size
+        //return cellsize
+        return CGSize(width: self.imageCollectionView.frame.size.width, height:264)
     }
 
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -91,5 +96,6 @@ class DetailViewController: UIViewController, UICollectionViewDataSource, UIColl
         let index = self.imageCollectionView.indexPath(for: firstCell!)
         self.pages.currentPage = (index?.row)!
     }
+    
 
 }
